@@ -2,6 +2,7 @@
     METHANOL ULTIMATE V4 - BITE BY NIGHT
     Premium UI with Toggle Keybind, Gradients, Section Headers & Polish
     All features 1:1 restored from original source.
+    Script was made by: @Yagisone_alt (Discord)
 ]]
 
 --// SERVICES
