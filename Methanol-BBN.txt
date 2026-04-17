@@ -1,7 +1,5 @@
 --[[
     METHANOL ULTIMATE V4 - BITE BY NIGHT
-    Premium UI with Toggle Keybind, Gradients, Section Headers & Polish
-    All features 1:1 restored from original source.
     Script was made by: @Yagisone_alt (Discord)
 ]]
 
@@ -28,7 +26,7 @@ local isMobile = UIS.TouchEnabled and not UIS.KeyboardEnabled
 local hasDrawing = (Drawing and Drawing.new) ~= nil
 local hasHttpFunctions = (game.HttpGet) ~= nil
 
--- State Management (Restored from Original)
+--// State Management
 local state = {
     autogen = false, noclip = false, sprint = false, aimlock = false,
     esp = false, autoEscape = false, healthDisplay = false, jumpBoost = false,
@@ -41,7 +39,7 @@ local ActiveLoops = {
     aimlock = false, autoEscape = false, autoGen = false, antiDeath = false, autoParry = false
 }
 
--- Global Settings (Restored from Original)
+--// Global Settings
 getgenv().BasicAttackRange = 30
 getgenv().PullAttackRange = 50
 getgenv().AntiDeathThreshold = 30
@@ -49,7 +47,7 @@ getgenv().SprintSpeed = 24
 getgenv().JumpPower = 50
 getgenv().JumpHeight = 10
 
--- Premium Theme
+--// Theme
 local THEME = {
     Background    = Color3.fromRGB(14, 14, 20),
     Sidebar       = Color3.fromRGB(10, 10, 16),
@@ -67,7 +65,7 @@ local THEME = {
     Glow          = Color3.fromRGB(0, 180, 220),
 }
 
---// CACHED REFERENCES (100% Original Logic)
+--// CACHED REFERENCES
 local CachedFolders = {}
 local function cacheFolders()
     CachedFolders.PLAYERS = workspace:FindFirstChild("PLAYERS")
@@ -113,9 +111,9 @@ local function notify(title, text)
     pcall(function() StarterGui:SetCore("SendNotification", {Title = title, Text = text, Duration = 4}) end)
 end
 
---////////////////////////////////////////////////////////////////////////////
---// PREMIUM UI LIBRARY V4
---////////////////////////////////////////////////////////////////////////////
+--///////////////////////////
+--// UI
+--///////////////////////////
 local MethanolLib = {}
 
 function MethanolLib:CreateWindow(title, subtitle)
@@ -129,7 +127,7 @@ function MethanolLib:CreateWindow(title, subtitle)
     if not ScreenGui.Parent then ScreenGui.Parent = player:WaitForChild("PlayerGui") end
     Lib.Gui = ScreenGui
 
-    -- Main Window
+    --// Main Window
     local MainFrame = Instance.new("Frame", ScreenGui)
     MainFrame.Name = "MainFrame"
     MainFrame.Size = UDim2.new(0, 620, 0, 440)
@@ -139,13 +137,13 @@ function MethanolLib:CreateWindow(title, subtitle)
     MainFrame.ClipsDescendants = true
     Instance.new("UICorner", MainFrame).CornerRadius = UDim.new(0, 12)
 
-    -- Outer glow stroke
+    --// Outer glow stroke
     local OuterStroke = Instance.new("UIStroke", MainFrame)
     OuterStroke.Color = THEME.Glow
     OuterStroke.Thickness = 1.5
     OuterStroke.Transparency = 0.6
 
-    -- Top Bar
+    --// Top Bar
     local TopBar = Instance.new("Frame", MainFrame)
     TopBar.Name = "TopBar"
     TopBar.Size = UDim2.new(1, 0, 0, 42)
@@ -158,7 +156,7 @@ function MethanolLib:CreateWindow(title, subtitle)
         ColorSequenceKeypoint.new(1, Color3.fromRGB(16, 16, 24))
     }
 
-    -- Accent line under topbar
+    --// Accent line
     local AccentLine = Instance.new("Frame", MainFrame)
     AccentLine.Size = UDim2.new(1, 0, 0, 2)
     AccentLine.Position = UDim2.new(0, 0, 0, 42)
@@ -171,7 +169,7 @@ function MethanolLib:CreateWindow(title, subtitle)
         ColorSequenceKeypoint.new(1, Color3.fromRGB(0, 60, 100))
     }
 
-    -- Title
+    --// Title
     local TitleLabel = Instance.new("TextLabel", TopBar)
     TitleLabel.Size = UDim2.new(0, 200, 1, 0)
     TitleLabel.Position = UDim2.new(0, 16, 0, 0)
@@ -192,7 +190,7 @@ function MethanolLib:CreateWindow(title, subtitle)
     SubLabel.TextSize = 13
     SubLabel.TextXAlignment = Enum.TextXAlignment.Left
 
-    -- Close & Minimize Buttons
+    --// Close & Minimize Buttons
     local CloseBtn = Instance.new("TextButton", TopBar)
     CloseBtn.Size = UDim2.new(0, 36, 0, 36)
     CloseBtn.Position = UDim2.new(1, -42, 0, 3)
@@ -221,7 +219,7 @@ function MethanolLib:CreateWindow(title, subtitle)
         MainFrame.Visible = false
     end)
 
-    -- Dragging (on TopBar only for cleaner UX)
+    --// Dragging (on TopBar only for cleaner UX)
     local dragging, dragStart, startPos
     TopBar.InputBegan:Connect(function(input)
         if (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) then
@@ -236,7 +234,7 @@ function MethanolLib:CreateWindow(title, subtitle)
     end)
     UIS.InputEnded:Connect(function(input) if (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) then dragging = false end end)
 
-    -- Sidebar
+    --// Sidebar
     local Sidebar = Instance.new("Frame", MainFrame)
     Sidebar.Name = "Sidebar"
     Sidebar.Size = UDim2.new(0, 155, 1, -44)
@@ -244,7 +242,7 @@ function MethanolLib:CreateWindow(title, subtitle)
     Sidebar.BackgroundColor3 = THEME.Sidebar
     Sidebar.BorderSizePixel = 0
 
-    -- Sidebar divider
+    --// Sidebar divider
     local SideDiv = Instance.new("Frame", MainFrame)
     SideDiv.Size = UDim2.new(0, 1, 1, -44)
     SideDiv.Position = UDim2.new(0, 155, 0, 44)
@@ -265,18 +263,18 @@ function MethanolLib:CreateWindow(title, subtitle)
         SidebarScroll.CanvasSize = UDim2.new(0, 0, 0, SidebarLayout.AbsoluteContentSize.Y + 10)
     end)
 
-    -- Content Container
+    --// Content Container
     local Container = Instance.new("Frame", MainFrame)
     Container.Name = "Container"
     Container.Size = UDim2.new(1, -166, 1, -54)
     Container.Position = UDim2.new(0, 161, 0, 49)
     Container.BackgroundTransparency = 1
 
-    --// TAB CREATION
+    --// TAB CREAION
     function Lib:CreateTab(name, icon)
         local Tab = {}
 
-        -- Sidebar Button
+        --// Sidebar Button
         local TabBtn = Instance.new("TextButton", SidebarScroll)
         TabBtn.Size = UDim2.new(1, -14, 0, 34)
         TabBtn.BackgroundColor3 = THEME.Secondary
@@ -286,7 +284,7 @@ function MethanolLib:CreateWindow(title, subtitle)
         TabBtn.BorderSizePixel = 0
         Instance.new("UICorner", TabBtn).CornerRadius = UDim.new(0, 8)
 
-        -- Active indicator bar
+        --// Active indicator bar
         local Indicator = Instance.new("Frame", TabBtn)
         Indicator.Size = UDim2.new(0, 3, 0, 20)
         Indicator.Position = UDim2.new(0, 0, 0.5, -10)
@@ -314,7 +312,7 @@ function MethanolLib:CreateWindow(title, subtitle)
         TabLabel.TextSize = 13
         TabLabel.TextXAlignment = Enum.TextXAlignment.Left
 
-        -- Content Scroll
+        --// Content Scroll
         local Scroll = Instance.new("ScrollingFrame", Container)
         Scroll.Size = UDim2.new(1, 0, 1, 0)
         Scroll.BackgroundTransparency = 1
@@ -334,7 +332,7 @@ function MethanolLib:CreateWindow(title, subtitle)
             Scroll.CanvasSize = UDim2.new(0, 0, 0, Layout.AbsoluteContentSize.Y + 15)
         end)
 
-        -- Tab Selection
+        --// Tab Selection
         function Tab:Select()
             if Lib.ActiveTab then
                 Lib.ActiveTab.Btn.BackgroundTransparency = 1
@@ -376,7 +374,7 @@ function MethanolLib:CreateWindow(title, subtitle)
             L.Font = Enum.Font.GothamBold
             L.TextSize = 11
             L.TextXAlignment = Enum.TextXAlignment.Left
-            -- Separator line
+            --// Separator line
             local Line = Instance.new("Frame", S)
             Line.Size = UDim2.new(1, 0, 0, 1)
             Line.Position = UDim2.new(0, 0, 1, -1)
@@ -496,7 +494,7 @@ function MethanolLib:CreateWindow(title, subtitle)
                 ColorSequenceKeypoint.new(1, THEME.Accent)
             }
 
-            -- Thumb dot
+            --// Thumb dot
             local Thumb = Instance.new("Frame", Bar)
             Thumb.Size = UDim2.new(0, 14, 0, 14)
             Thumb.Position = UDim2.new((S.Value - min)/(max - min), -7, 0.5, -7)
@@ -913,7 +911,7 @@ Tabs.Visual:CreateSection("Lighting")
 local function applyBright()
     Lighting.Brightness = 5
     Lighting.ClockTime = 14
-    Lighting.FogEnd = 100000
+    Lighting.FogEnd = 1e10
     Lighting.GlobalShadows = false
     Lighting.Ambient = Color3.fromRGB(255,255,255)
 end
@@ -925,7 +923,7 @@ end)
 
 Tabs.Visual:CreateSection("ESP - Players")
 
-local espH = { Survivors = {}, Killers = {}, Generators = {}, Items = {}, Traps = {}, Minions = {} }
+local espH = { Survivors = {}, Killers = {}, Generators = {}, Items = {}, Traps = {}, Wireyes = {} }
 local function doESP(folder, tbl, color, enabled)
     if enabled and folder then
         local function add(v) if (v:IsA("Model") or v:IsA("BasePart")) and not tbl[v] then
@@ -974,9 +972,9 @@ end)
 
 Tabs.Visual:CreateToggle("Minion ESP", false, function(enabled)
     if enabled then
-        for _, v in ipairs(workspace:GetDescendants()) do if v.Name == "Minion" and v:IsA("Model") then local h = Instance.new("Highlight", v) h.FillColor, h.OutlineColor = Color3.new(1,0.3,0), Color3.new(1,0.3,0) espH.Minions[v] = h end end
+        for _, v in ipairs(workspace:GetDescendants()) do if v.Name == "Minion" and v:IsA("Model") then local h = Instance.new("Highlight", v) h.FillColor, h.OutlineColor = Color3.new(1,0.3,0), Color3.new(1,0.3,0) espH.Wireyes[v] = h end end
     else
-        for _, h in pairs(espH.Minions) do h:Destroy() end table.clear(espH.Minions)
+        for _, h in pairs(espH.Wireyes) do h:Destroy() end table.clear(espH.Wireyes)
     end
 end)
 
@@ -1125,7 +1123,7 @@ ReopenStroke.Color = THEME.Accent
 ReopenStroke.Thickness = 2
 ReopenStroke.Transparency = 0.3
 
--- Pulse animation on reopen button
+--// Pulse animation on reopen button
 task.spawn(function()
     while task.wait(1.5) do
         if Reopen.Visible then
@@ -1136,7 +1134,7 @@ task.spawn(function()
     end
 end)
 
--- Draggable reopen button
+--// Draggable reopen button
 local rDrag, rStart, rPos, rMoved = false, nil, nil, false
 Reopen.InputBegan:Connect(function(input)
     if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
