@@ -50,7 +50,7 @@ local ActiveLoops = {
 --// KEYBIND SYSTEM
 local Keybinds = {
 	UI = Enum.KeyCode.RightAlt,
-	Aimlock = Enum.KeyCode.C,
+	Aimlock = Enum.KeyCode.X,
 	FullBright = Enum.KeyCode.G,
 	Noclip = Enum.KeyCode.N,
 	ESP = Enum.KeyCode.T,
