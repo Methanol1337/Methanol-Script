@@ -1707,7 +1707,7 @@ Tabs.UI:CreateButton("Rejoin Server", function() TeleportService:Teleport(game.P
 Tabs.UI:CreateButton("Server Hop", function() TeleportService:Teleport(game.PlaceId) end)
 
 Tabs.UI:CreateButton("Join Discord", function()
-    setclipboard("https://discord.gg/M5GQ38U8")
+    setclipboard("https://discord.gg/Hqq3yFdg")
     StarterGui:SetCore("SendNotification", {
         Title = "Methanol",
         Text = "Discord link copied!",
