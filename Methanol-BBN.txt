@@ -1,5 +1,5 @@
 --[[
-    METHANOL ULTIMATE V4.2 - BITE BY NIGHT
+    METHANOL ULTIMATE V4 - BITE BY NIGHT
 ]]
 
 --// SERVICES
@@ -1705,6 +1705,15 @@ Tabs.UI:CreateButton("Infinite Yield", function()
 end)
 Tabs.UI:CreateButton("Rejoin Server", function() TeleportService:Teleport(game.PlaceId, player) end)
 Tabs.UI:CreateButton("Server Hop", function() TeleportService:Teleport(game.PlaceId) end)
+
+Tabs.UI:CreateButton("Join Discord", function()
+    setclipboard("https://discord.gg/M5GQ38U8")
+    StarterGui:SetCore("SendNotification", {
+        Title = "Methanol",
+        Text = "Discord link copied!",
+        Duration = 3
+    })
+end)
 
 --////////////////////////////////////////////////////////////////////////////
 --// MAIN LOOP
